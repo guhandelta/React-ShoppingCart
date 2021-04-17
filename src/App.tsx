@@ -23,6 +23,12 @@ export type CartItemType = {
 const getProducts = async (): Promise<CartItemType[]> => await (await fetch('https://fakestoreapi.com/products')).json();
 
 const App = () => {
+
+  // omponent State
+  const [cartOpen, setCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState([] as CartItemType[]); // [] -> initial val, it is of the type CartItemType[]
+
+  // Fetch the product info using ReactQuery
   const { data, isLoading, error } = useQuery<CartItemType[]>(
       'products', // Query key => String, can be named to whatever 
       getProducts // Fetching function 
@@ -36,11 +42,15 @@ const App = () => {
 
     if(isLoading) return <LinearProgress />
     if(isLoading) return <div className="">Something Went Wrong!!</div>
+    
 
   console.log('====================================');
   console.log(data);
   console.log('====================================');
   return <Wrapper>
+    <Drawer anchor='right' open={cartOpen} onClose={() => setCartOpen(false)}>
+      Cart
+    </Drawer>
     <Grid container spacing={3}>
       {data?.map(item => (
         <Grid item key={item.id} xs={12} sm={4}>
