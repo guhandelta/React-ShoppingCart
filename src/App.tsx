@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 // Components
+import { CartItem } from './components'
+// Material Components
 import { Drawer, LinearProgress, Grid, Badge } from '@material-ui/core'
 // Icons
 import { AddShoppingCart } from '@material-ui/icons'
@@ -10,7 +12,7 @@ import { Wrapper } from './App.styles'
 export type CartItemType = {
   id: number;
   category: string;
-  descriptiom: string;
+  description: string;
   image : string;
   price: number;
   title : string;
@@ -28,7 +30,7 @@ const App = () => {
 
     const getTotalItems = () => null;
 
-    const handleAddToCart = () => null;
+    const handleAddToCart = (clickedItem: CartItemType) => null;
 
     const handleRemoveFromCart = () => null;
 
@@ -38,7 +40,15 @@ const App = () => {
   console.log('====================================');
   console.log(data);
   console.log('====================================');
-  return <div className="app">App Works!!!</div>
+  return <Wrapper>
+    <Grid container spacing={3}>
+      {data?.map(item => (
+        <Grid item key={item.id} xs={12} sm={4}>
+          <CartItem item={item} handleAddToCart={handleAddToCart} />
+        </Grid>
+      ))}
+    </Grid>
+  </Wrapper>
 }
 
 
