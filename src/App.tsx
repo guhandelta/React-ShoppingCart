@@ -5,9 +5,9 @@ import { CartItem } from './components'
 // Material Components
 import { Drawer, LinearProgress, Grid, Badge } from '@material-ui/core'
 // Icons
-import { AddShoppingCart } from '@material-ui/icons'
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
 // Styles
-import { Wrapper } from './App.styles'
+import { Wrapper, StyledButton } from './App.styles'
 // Types
 export type CartItemType = {
   id: number;
@@ -34,7 +34,7 @@ const App = () => {
       getProducts // Fetching function 
     );
 
-    const getTotalItems = () => null;
+    const getTotalItems = (items: CartItemType[]) => items.reduce((acc: number, item) => acc+item.amount, 0)
 
     const handleAddToCart = (clickedItem: CartItemType) => null;
 
@@ -51,6 +51,11 @@ const App = () => {
     <Drawer anchor='right' open={cartOpen} onClose={() => setCartOpen(false)}>
       Cart
     </Drawer>
+    <StyledButton onClick={() => setCartOpen(true)}> 
+      <Badge badgeContent={getTotalItems(cartItems)} color='error'>
+        <AddShoppingCartIcon />
+      </Badge>
+    </StyledButton>
     <Grid container spacing={3}>
       {data?.map(item => (
         <Grid item key={item.id} xs={12} sm={4}>
