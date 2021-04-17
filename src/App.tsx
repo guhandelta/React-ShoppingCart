@@ -36,7 +36,22 @@ const App = () => {
 
     const getTotalItems = (items: CartItemType[]) => items.reduce((acc: number, item) => acc+item.amount, 0)
 
-    const handleAddToCart = (clickedItem: CartItemType) => null;
+    const handleAddToCart = (clickedItem: CartItemType) => {
+      setCartItems(prev => {
+        // Check if item already exists in the cart
+        const itemAlreadyExists = prev.find(item => item.id === clickedItem.id); // Returns true or false
+        if(itemAlreadyExists){
+          return prev.map(item => 
+            item.id === clickedItem.id ?
+              { item, amount: item.amount + 1 } // Return an object with amount + 1, if the iteam id matches
+            : // else
+              item // Return the item as it is
+          );
+        }
+        // Item is added to the cart for the first time
+        return [...prev, { ...clickedItem, amount: 1 }];
+      })
+    };
 
     const handleRemoveFromCart = () => null;
 
