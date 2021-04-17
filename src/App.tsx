@@ -53,7 +53,20 @@ const App = () => {
       })
     };
 
-    const handleRemoveFromCart = () => null;
+    const handleRemoveFromCart = (id: number) => {
+      setCartItems( prev => (
+        prev.reduce((acc, item) =>{
+          if(item.id === id){
+            // Return accumulator if item count is 1, and skip the item, which gets deleted
+            if(item.amount === 1) return acc;
+            // or return a new array with count reduced by 1
+            return [...acc, { ...item, amount: item.amount - 1 }];
+          }else{
+            return [...acc, item];
+          }
+        }, [] as CartItemType[])
+      ));
+    };
 
     if(isLoading) return <LinearProgress />
     if(isLoading) return <div className="">Something Went Wrong!!</div>
